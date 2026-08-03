@@ -1,0 +1,46 @@
+From e5eee945986ff676814771edccb218a028cb0862 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+Date: Fri, 31 Jul 2026 17:07:18 +0200
+Subject: [PATCH] WIP: fix warning 1647
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Warning: test1647 not present in tests/data/Makefile.inc
+
+Signed-off-by: João Marcos Costa <joaomarcos.costa@bootlin.com>
+---
+ tests/data/Makefile.inc | 2 +-
+ tests/data/test1647     | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
+index e641cb8..e1affbd 100644
+--- a/tests/data/Makefile.inc
++++ b/tests/data/Makefile.inc
+@@ -206,7 +206,7 @@ test1608 test1609 test1610 test1611 test1612 test1613 \
+ \
+ test1620 test1621 \
+ \
+-test1630 test1631 test1632 test1633 test1634 \
++test1630 test1631 test1632 test1633 test1634 test1647 \
+ \
+ test1650 test1651 test1652 test1653 test1654 test1655 test1656 \
+ test1660 test1661 \
+diff --git a/tests/data/test1647 b/tests/data/test1647
+index a87487f..fff2d2e 100644
+--- a/tests/data/test1647
++++ b/tests/data/test1647
+@@ -56,8 +56,7 @@ lib%TESTNUMBER
+ !SSPI
+ crypto
+ proxy
+-digest
+-Debug
++debug
+ </features>
+ <setenv>
+ http_proxy=%HOSTIP:%HTTPPORT
+-- 
+2.53.0
+

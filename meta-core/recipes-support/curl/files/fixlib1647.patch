@@ -1,0 +1,62 @@
+--- a/tests/libtest/lib1647.c
++++ b/tests/libtest/lib1647.c
+@@ -28,7 +28,42 @@
+  * argv4 = credentials 2
+  */
+ 
+-#include "first.h"
++#include <curl/curl.h>
++#include "curl/mprintf.h"
++
++typedef CURLcode (*entry_func_t)(const char *);
++
++extern const char *libtest_arg2;
++extern const char *libtest_arg3;
++extern int test_argc;
++extern char **test_argv;
++static const char *libtest_arg4;
++
++#define res_easy_setopt(A, B, C) \
++  do { \
++    result = curl_easy_setopt((A), (B), (C)); \
++    if(result) \
++      curl_mfprintf(stderr, \
++                    "%s:%d curl_easy_setopt() failed, " \
++                    "with code %d (%s)\n", \
++                    __FILE__, __LINE__, (int)result, \
++                    curl_easy_strerror(result)); \
++  } while(0)
++
++#define res_global_init(A) \
++  do { \
++    result = curl_global_init((A)); \
++    if(result) \
++      curl_mfprintf(stderr, \
++                    "%s:%d curl_global_init() failed, " \
++                    "with code %d (%s)\n", \
++                    __FILE__, __LINE__, (int)result, \
++                    curl_easy_strerror(result)); \
++  } while(0)
++
++#define start_test_timing() do { } while(0)
++
++#define TEST_ERR_MAJOR_BAD CURLE_OBSOLETE20
+ 
+ /* this is meant to pick up the proxy from the environment variable */
+ static CURLcode init1647(CURL *curl, const char *url, const char *userpwd)
+@@ -84,11 +119,14 @@
+   return curl_easy_perform(curl);
+ }
+ 
+-static CURLcode test_lib1647(const char *URL)
++int test(char *URL)
+ {
+   CURLcode result = CURLE_OK;
+   CURL *curl = NULL;
+ 
++  if(test_argc > 4)
++    libtest_arg4 = test_argv[4];
++
+   res_global_init(CURL_GLOBAL_ALL);
+   if(result)
+     return result;
